@@ -17,6 +17,15 @@ class AutorFilter(filters.FilterSet):
         model = Autor
         fields = ['nome']
 
+class LivroFilter(filters.FilterSet):
+    titulo = filters.CharFilter(lookup_expr='icontains')
+    autor = filters.CharFilter(field_name='autor__nome', lookup_expr='icontains')
+    categoria = filters.CharFilter(field_name='categoria__nome', lookup_expr='icontains')
+
+    class Meta:
+        model = Livro
+        fields = ['titulo', 'autor', 'categoria']
+
 class CategoriaList(generics.ListCreateAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
@@ -39,10 +48,13 @@ class AutorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer
 
-# Update LivroList to include search_fields
 class LivroList(generics.ListCreateAPIView):
     queryset = Livro.objects.all()
     serializer_class = LivroSerializer
     filterset_class = LivroFilter
-    ordering_fields = ['titulo', 'autor', 'categoria', 'publicado_em']
+    ordering_fields = ['titulo', 'autor__nome', 'categoria__nome', 'publicado_em']
     search_fields = ['^titulo', '^autor__nome', '^categoria__nome']
+
+class LivroDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Livro.objects.all()
+    serializer_class = LivroSerializer
