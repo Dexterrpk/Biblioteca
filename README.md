@@ -2,7 +2,7 @@
 
 #Polo: Feira de Santana
 
-#Alunos: Cleiton Neri Santana 
+#Alunos: Cleiton Neri Santana , Valdinel Ferreira da Silva
 
 
 
